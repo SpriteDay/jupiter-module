@@ -7,16 +7,20 @@ type TokenSearchRequest = z.infer<typeof JupiterApi.TokenSearch.REQUEST_SCHEMA>
 type TokenSearchResponse = z.infer<
     typeof JupiterApi.TokenSearch.RESPONSE_SCHEMA
 >
+
 export async function getTokenSearch(
     request: TokenSearchRequest,
-    config: {
+    config?: {
         isStrict?: boolean
-        limiter: JupiterRateLimiter
+        limiter?: JupiterRateLimiter
     },
 ): Promise<TokenSearchResponse> {
     const validatedRequest =
         JupiterApi.TokenSearch.REQUEST_SCHEMA.parse(request)
-    await config.limiter.acquire()
+
+    if (config?.limiter) {
+        await config.limiter.acquire()
+    }
 
     const response = await axios.get(JupiterApi.TokenSearch.ROUTE, {
         params: validatedRequest,
@@ -35,15 +39,19 @@ export async function getTokenSearch(
 
 type QuoteRequest = z.infer<typeof JupiterApi.Quote.REQUEST_SCHEMA>
 type QuoteResponse = z.infer<typeof JupiterApi.Quote.RESPONSE_SCHEMA>
+
 export async function getQuote(
     request: QuoteRequest,
-    config: {
+    config?: {
         isStrict?: boolean
-        limiter: JupiterRateLimiter
+        limiter?: JupiterRateLimiter
     },
 ): Promise<QuoteResponse> {
     const validatedRequest = JupiterApi.Quote.REQUEST_SCHEMA.parse(request)
-    await config.limiter.acquire()
+
+    if (config?.limiter) {
+        await config.limiter.acquire()
+    }
 
     const response = await axios.get(JupiterApi.Quote.ROUTE, {
         params: validatedRequest,
@@ -65,13 +73,16 @@ type SwapResponse = z.infer<typeof JupiterApi.Swap.RESPONSE_SCHEMA>
 
 export async function postSwap(
     request: SwapRequest,
-    config: {
+    config?: {
         isStrict?: boolean
-        limiter: JupiterRateLimiter
+        limiter?: JupiterRateLimiter
     },
 ): Promise<SwapResponse> {
     const validatedRequest = JupiterApi.Swap.REQUEST_SCHEMA.parse(request)
-    await config.limiter.acquire()
+
+    if (config?.limiter) {
+        await config.limiter.acquire()
+    }
 
     const response = await axios.post(JupiterApi.Swap.ROUTE, validatedRequest)
 
