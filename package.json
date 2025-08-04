@@ -1,5 +1,5 @@
 {
-  "name": "@repo/trader-module",
+  "name": "jupiter-module",
   "version": "0.0.1",
   "private": true,
   "type": "module",
@@ -10,9 +10,7 @@
     }
   },
   "scripts": {
-    "dev": "tsx watch src/index.ts",
     "build": "vite build",
-    "start": "node dist/index.js",
     "fmt": "biome format --write ./src && eslint ./src --fix",
     "lint": "biome lint ./src && eslint ./src",
     "ts": "tsc --noEmit"
