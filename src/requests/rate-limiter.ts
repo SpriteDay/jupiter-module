@@ -5,7 +5,7 @@ type RateLimiterConfig = {
     periodInSeconds: number
 }
 
-export class RateLimiter {
+export class JupiterRateLimiter {
     private readonly name: string
     private readonly tokensPerMillisecond: number
     private maxTokens: number
@@ -49,8 +49,8 @@ export class RateLimiter {
 }
 
 export type RateLimiterPool = {
-    highPriorityRateLimiter: RateLimiter
-    lowPriorityRateLimiter: RateLimiter
+    highPriorityRateLimiter: JupiterRateLimiter
+    lowPriorityRateLimiter: JupiterRateLimiter
 }
 
 export type RateLimiterPoolConfig = {
@@ -61,7 +61,7 @@ export type RateLimiterPoolConfig = {
 export function createRateLimiters(
     config: RateLimiterPoolConfig,
 ): RateLimiterPool {
-    const highPriorityRateLimiter = new RateLimiter(
+    const highPriorityRateLimiter = new JupiterRateLimiter(
         {
             tokensAllocatedPerPeriod: config.highPriorityQuota,
             periodInSeconds: JupiterRateLimitConfig.periodInSeconds,
@@ -69,7 +69,7 @@ export function createRateLimiters(
         "HighPriority",
     )
 
-    const lowPriorityRateLimiter = new RateLimiter(
+    const lowPriorityRateLimiter = new JupiterRateLimiter(
         {
             tokensAllocatedPerPeriod: config.lowPriorityQuota,
             periodInSeconds: JupiterRateLimitConfig.periodInSeconds,

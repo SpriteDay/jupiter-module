@@ -1,7 +1,7 @@
 import axios from "axios"
 import { z } from "zod"
 import { JupiterApi } from "./schemas"
-import { RateLimiter } from "./rate-limiter"
+import { JupiterRateLimiter } from "./rate-limiter"
 
 type TokenSearchRequest = z.infer<typeof JupiterApi.TokenSearch.REQUEST_SCHEMA>
 type TokenSearchResponse = z.infer<
@@ -11,7 +11,7 @@ export async function getTokenSearch(
     request: TokenSearchRequest,
     config: {
         isStrict?: boolean
-        limiter: RateLimiter
+        limiter: JupiterRateLimiter
     },
 ): Promise<TokenSearchResponse> {
     const validatedRequest =
@@ -39,7 +39,7 @@ export async function getQuote(
     request: QuoteRequest,
     config: {
         isStrict?: boolean
-        limiter: RateLimiter
+        limiter: JupiterRateLimiter
     },
 ): Promise<QuoteResponse> {
     const validatedRequest = JupiterApi.Quote.REQUEST_SCHEMA.parse(request)
@@ -67,7 +67,7 @@ export async function postSwap(
     request: SwapRequest,
     config: {
         isStrict?: boolean
-        limiter: RateLimiter
+        limiter: JupiterRateLimiter
     },
 ): Promise<SwapResponse> {
     const validatedRequest = JupiterApi.Swap.REQUEST_SCHEMA.parse(request)
