@@ -8,12 +8,20 @@ type TokenSearchResponse = z.infer<
     typeof JupiterApi.TokenSearch.RESPONSE_SCHEMA
 >
 
+/**
+ * Searches for Jupiter tokens based on a query string.
+ * @param request - The search request containing the query.
+ * @param config - Optional configuration for the request.
+ * @param config.isStrict - If true, throws an error for invalid API responses.
+ * @param config.limiter - A JupiterRateLimiter instance to handle rate limiting.
+ * @returns A promise that resolves to the token search response.
+ * @throws Will throw an error if the request validation fails, or if `isStrict` is true and the response is invalid.
+ */
 export async function getTokenSearch(
     request: TokenSearchRequest,
     config?: {
         isStrict?: boolean
         limiter?: JupiterRateLimiter
-        detailedLogging?: boolean
     },
 ): Promise<TokenSearchResponse> {
     const validatedRequest =
@@ -41,12 +49,20 @@ export async function getTokenSearch(
 type QuoteRequest = z.infer<typeof JupiterApi.Quote.REQUEST_SCHEMA>
 type QuoteResponse = z.infer<typeof JupiterApi.Quote.RESPONSE_SCHEMA>
 
+/**
+ * Gets a quote for a token swap from the Jupiter API.
+ * @param request - The quote request details.
+ * @param config - Optional configuration for the request.
+ * @param config.isStrict - If true, throws an error for invalid API responses.
+ * @param config.limiter - A JupiterRateLimiter instance to handle rate limiting.
+ * @returns A promise that resolves to the quote response.
+ * @throws Will throw an error if the request validation fails, or if `isStrict` is true and the response is invalid.
+ */
 export async function getQuote(
     request: QuoteRequest,
     config?: {
         isStrict?: boolean
         limiter?: JupiterRateLimiter
-        detailedLogging?: boolean
     },
 ): Promise<QuoteResponse> {
     const validatedRequest = JupiterApi.Quote.REQUEST_SCHEMA.parse(request)
@@ -73,12 +89,20 @@ export async function getQuote(
 type SwapRequest = z.infer<typeof JupiterApi.Swap.REQUEST_SCHEMA>
 type SwapResponse = z.infer<typeof JupiterApi.Swap.RESPONSE_SCHEMA>
 
+/**
+ * Performs a token swap using the Jupiter API.
+ * @param request - The swap request, including user public key and the quote response.
+ * @param config - Optional configuration for the request.
+ * @param config.isStrict - If true, throws an error for invalid API responses.
+ * @param config.limiter - A JupiterRateLimiter instance to handle rate limiting.
+ * @returns A promise that resolves to the swap response, containing the swap transaction.
+ * @throws Will throw an error if the request validation fails, or if `isStrict` is true and the response is invalid.
+ */
 export async function postSwap(
     request: SwapRequest,
     config?: {
         isStrict?: boolean
         limiter?: JupiterRateLimiter
-        detailedLogging?: boolean
     },
 ): Promise<SwapResponse> {
     const validatedRequest = JupiterApi.Swap.REQUEST_SCHEMA.parse(request)
