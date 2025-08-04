@@ -34,7 +34,9 @@
     "fmt": "biome format --write ./src && eslint ./src --fix",
     "lint": "biome lint ./src && eslint ./src",
     "ts": "tsc --noEmit",
-    "test": "vitest"
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:integration": "vitest run --test-name-pattern \"integration tests\""
   },
   "peerDependencies": {
     "axios": "^1.11.0",
