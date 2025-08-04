@@ -1,5 +1,5 @@
-export { getTokenSearch, getQuote, postSwap } from "./requests/jupiter.ts"
+export { getTokenSearch, getQuote, postSwap } from "./requests/jupiter"
 export {
     createRateLimiters,
     type RateLimiter,
-} from "./requests/rate-limiter.ts"
+} from "./requests/rate-limiter"

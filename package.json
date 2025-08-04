@@ -10,8 +10,11 @@
     }
   },
   "scripts": {
-    "lint": "biome lint .",
-    "fmt": "biome format --write .",
+    "dev": "tsx watch src/index.ts",
+    "build": "vite build",
+    "start": "node dist/index.js",
+    "fmt": "biome format --write ./src && eslint ./src --fix",
+    "lint": "biome lint ./src && eslint ./src",
     "ts": "tsc --noEmit"
   },
   "dependencies": {
@@ -21,6 +24,7 @@
   "devDependencies": {
     "@total-typescript/ts-reset": "^0.6.1",
     "@types/node": "^20.14.12",
-    "typescript": "^5.6.2"
+    "typescript": "^5.6.2",
+    "vite": "^7.0.0"
   }
 }

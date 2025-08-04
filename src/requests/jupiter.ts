@@ -1,7 +1,7 @@
 import axios from "axios"
 import { z } from "zod"
-import { JupiterApi } from "./schemas.ts"
-import { RateLimiter } from "./rate-limiter.ts"
+import { JupiterApi } from "./schemas"
+import { RateLimiter } from "./rate-limiter"
 
 type TokenSearchRequest = z.infer<typeof JupiterApi.TokenSearch.REQUEST_SCHEMA>
 type TokenSearchResponse = z.infer<

@@ -1,4 +1,4 @@
-import { JupiterRateLimitConfig } from "../config.ts"
+import { JupiterRateLimitConfig } from "../config"
 
 type RateLimiterConfig = {
     tokensAllocatedPerPeriod: number

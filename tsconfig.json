@@ -1,18 +1,28 @@
 {
-    "$schema": "https://json.schemastore.org/tsconfig",
     "compilerOptions": {
-        "esModuleInterop": true,
-        "skipLibCheck": true,
-        "forceConsistentCasingInFileNames": true,
-        "resolveJsonModule": true,
-        "strict": true,
-        "strictNullChecks": true,
-        "lib": ["ESNext"],
+        "target": "ES2022",
+        "useDefineForClassFields": true,
         "module": "ESNext",
-        "moduleResolution": "Bundler",
+        "lib": [
+            "ES2022"
+        ],
+        "skipLibCheck": true,
+        /* Bundler mode */
+        "moduleResolution": "bundler",
+        "allowImportingTsExtensions": true,
+        "verbatimModuleSyntax": true,
+        "moduleDetection": "force",
         "noEmit": true,
-        "allowImportingTsExtensions": true
+        /* Linting */
+        "strict": true,
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
+        "erasableSyntaxOnly": true,
+        "noFallthroughCasesInSwitch": true,
+        "noUncheckedSideEffectImports": true
     },
-    "include": ["src/**/*.ts", "reset.d.ts"],
-    "exclude": ["node_modules", "dist"]
+    "include": [
+        "src",
+        "reset.d.ts"
+    ],
 }
