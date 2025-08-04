@@ -33,7 +33,8 @@
     "build": "vite build",
     "fmt": "biome format --write ./src && eslint ./src --fix",
     "lint": "biome lint ./src && eslint ./src",
-    "ts": "tsc --noEmit"
+    "ts": "tsc --noEmit",
+    "test": "vitest"
   },
   "peerDependencies": {
     "axios": "^1.11.0",
@@ -49,6 +50,7 @@
     "typescript": "5.8.2",
     "typescript-eslint": "^8.38.0",
     "vite": "^7.0.0",
-    "vite-plugin-dts": "^3.9.1"
+    "vite-plugin-dts": "^3.9.1",
+    "vitest": "^3.2.4"
   }
 }
