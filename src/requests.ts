@@ -2,6 +2,7 @@ import axios from "axios"
 import { z } from "zod"
 import { JupiterApi } from "./schemas"
 import { JupiterRateLimiter } from "./rate-limiter"
+import { logZodErrors } from "./logger"
 
 type TokenSearchRequest = z.infer<typeof JupiterApi.TokenSearch.REQUEST_SCHEMA>
 type TokenSearchResponse = z.infer<
@@ -39,8 +40,11 @@ export async function getTokenSearch(
         response.data,
     )
 
-    if (!parseResult.success && config?.isStrict) {
-        throw new Error("Invalid response from Jupiter API")
+    if (!parseResult.success) {
+        logZodErrors(parseResult.error, response.data)
+        if (config?.isStrict) {
+            throw new Error("Invalid response from Jupiter API")
+        }
     }
 
     return response.data
@@ -79,8 +83,11 @@ export async function getQuote(
         response.data,
     )
 
-    if (!parseResult.success && config?.isStrict) {
-        throw new Error("Invalid response from Jupiter API")
+    if (!parseResult.success) {
+        logZodErrors(parseResult.error, response.data)
+        if (config?.isStrict) {
+            throw new Error("Invalid response from Jupiter API")
+        }
     }
 
     return response.data
@@ -115,8 +122,11 @@ export async function postSwap(
 
     const parseResult = JupiterApi.Swap.RESPONSE_SCHEMA.safeParse(response.data)
 
-    if (!parseResult.success && config?.isStrict) {
-        throw new Error("Invalid response from Jupiter API")
+    if (!parseResult.success) {
+        logZodErrors(parseResult.error, response.data)
+        if (config?.isStrict) {
+            throw new Error("Invalid response from Jupiter API")
+        }
     }
 
     return response.data
