@@ -1,18 +1,16 @@
-import { JupiterRateLimitConfig } from "../config"
-
 type RateLimiterConfig = {
     tokensAllocatedPerPeriod: number
     periodInSeconds: number
 }
 
 export class JupiterRateLimiter {
-    private readonly name: string
+    private readonly name: string | undefined
     private readonly tokensPerMillisecond: number
     private maxTokens: number
     private tokens: number
     private lastRefill: number
 
-    constructor(config: RateLimiterConfig, name: string) {
+    constructor(config: RateLimiterConfig, name?: string) {
         this.name = name
         this.tokensPerMillisecond =
             config.tokensAllocatedPerPeriod / (config.periodInSeconds * 1000)
@@ -56,26 +54,4 @@ export type RateLimiterPool = {
 export type RateLimiterPoolConfig = {
     highPriorityQuota: number
     lowPriorityQuota: number
-}
-
-export function createRateLimiters(
-    config: RateLimiterPoolConfig,
-): RateLimiterPool {
-    const highPriorityRateLimiter = new JupiterRateLimiter(
-        {
-            tokensAllocatedPerPeriod: config.highPriorityQuota,
-            periodInSeconds: JupiterRateLimitConfig.periodInSeconds,
-        },
-        "HighPriority",
-    )
-
-    const lowPriorityRateLimiter = new JupiterRateLimiter(
-        {
-            tokensAllocatedPerPeriod: config.lowPriorityQuota,
-            periodInSeconds: JupiterRateLimitConfig.periodInSeconds,
-        },
-        "LowPriority",
-    )
-
-    return { highPriorityRateLimiter, lowPriorityRateLimiter }
 }
