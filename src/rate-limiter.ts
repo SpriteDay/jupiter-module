@@ -1,7 +1,4 @@
-type RateLimiterConfig = {
-    tokensAllocatedPerPeriod: number
-    periodInSeconds: number
-}
+import { logger } from "./logger"
 
 export class JupiterRateLimiter {
     private readonly name: string | undefined
@@ -9,14 +6,21 @@ export class JupiterRateLimiter {
     private maxTokens: number
     private tokens: number
     private lastRefill: number
+    private detailedLogging: boolean | undefined
 
-    constructor(config: RateLimiterConfig, name?: string) {
-        this.name = name
+    constructor(config: {
+        tokensAllocatedPerPeriod: number
+        periodInSeconds: number
+        name?: string
+        detailedLogging?: boolean
+    }) {
+        this.name = config.name
         this.tokensPerMillisecond =
             config.tokensAllocatedPerPeriod / (config.periodInSeconds * 1000)
         this.maxTokens = config.tokensAllocatedPerPeriod
         this.tokens = this.maxTokens
         this.lastRefill = Date.now()
+        this.detailedLogging = config.detailedLogging
     }
 
     private refillTokens() {
@@ -28,6 +32,9 @@ export class JupiterRateLimiter {
     }
 
     private async wait(ms: number): Promise<void> {
+        if (this.detailedLogging) {
+            logger.log(`[${this.name}] Waiting for ${ms}ms`)
+        }
         return new Promise((resolve) => setTimeout(resolve, ms))
     }
 

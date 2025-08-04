@@ -13,6 +13,7 @@ export async function getTokenSearch(
     config?: {
         isStrict?: boolean
         limiter?: JupiterRateLimiter
+        detailedLogging?: boolean
     },
 ): Promise<TokenSearchResponse> {
     const validatedRequest =
@@ -45,6 +46,7 @@ export async function getQuote(
     config?: {
         isStrict?: boolean
         limiter?: JupiterRateLimiter
+        detailedLogging?: boolean
     },
 ): Promise<QuoteResponse> {
     const validatedRequest = JupiterApi.Quote.REQUEST_SCHEMA.parse(request)
@@ -76,6 +78,7 @@ export async function postSwap(
     config?: {
         isStrict?: boolean
         limiter?: JupiterRateLimiter
+        detailedLogging?: boolean
     },
 ): Promise<SwapResponse> {
     const validatedRequest = JupiterApi.Swap.REQUEST_SCHEMA.parse(request)
