@@ -1,22 +1,20 @@
 import { defineConfig } from "vite"
+import dts from "vite-plugin-dts"
+import { resolve } from "node:path"
 
 export default defineConfig({
-    // Tell Vite that we are building for a custom application, not a browser app.
-    appType: "custom",
     build: {
-        // The directory where the output will be placed.
-        outDir: "dist",
-        // Our node entry point.
-        ssr: "src/index.ts",
-        // We want to control minification ourselves.
-        minify: false,
-        // Ensure that we are building for a Node.js environment.
-        target: "node20",
-        rollupOptions: {
-            output: {
-                // We want to output in ESM format.
-                format: "esm",
-            },
+        lib: {
+            entry: resolve(__dirname, "src/index.ts"),
+            formats: ["es", "cjs"],
+            fileName: (format) => `index.${format}.js`,
         },
+        rollupOptions: {
+            external: ["axios", "zod"],
+        },
+        outDir: "dist",
+        minify: false,
+        target: "node20",
     },
+    plugins: [dts({ rollupTypes: true })],
 })
