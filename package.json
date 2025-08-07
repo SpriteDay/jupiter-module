@@ -54,5 +54,8 @@
     "vite": "^7.0.0",
     "vite-plugin-dts": "^3.9.1",
     "vitest": "^3.2.4"
+  },
+  "dependencies": {
+    "@jup-ag/api": "^6.0.44"
   }
 }

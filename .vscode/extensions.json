@@ -1,0 +1,6 @@
+{
+    "recommendations": [
+        "biomejs.biome", // Biome plugin for formatting
+        "dbaeumer.vscode-eslint" // ESLint plugin
+    ]
+}

@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      '@jup-ag/api':
+        specifier: ^6.0.44
+        version: 6.0.44
       axios:
         specifier: ^1.11.0
         version: 1.11.0
@@ -337,6 +340,9 @@ packages:
 
   '@jridgewell/sourcemap-codec@1.5.4':
     resolution: {integrity: sha512-VT2+G1VQs/9oz078bLrYbecdZKs912zQlkelYpuf+SXF+QvZDYJlbx/LSx+meSAwdDFnF8FVXW92AVjjkVmgFw==}
+
+  '@jup-ag/api@6.0.44':
+    resolution: {integrity: sha512-C6oYi+wvNi07VlmWhT8+ZDMqTJuF+MiHuNBE65cYuBH6C4l0JfwpXaj6mKazAdVqVFWgngr3s2+0tdF5nDH4tA==}
 
   '@microsoft/api-extractor-model@7.28.13':
     resolution: {integrity: sha512-39v/JyldX4MS9uzHcdfmjjfS6cYGAoXV+io8B5a338pkHiSt+gy2eXQ0Q7cGFJ7quSa1VqqlMdlPrB6sLR/cAw==}
@@ -1625,6 +1631,8 @@ snapshots:
   '@humanwhocodes/retry@0.4.3': {}
 
   '@jridgewell/sourcemap-codec@1.5.4': {}
+
+  '@jup-ag/api@6.0.44': {}
 
   '@microsoft/api-extractor-model@7.28.13(@types/node@20.19.9)':
     dependencies:
