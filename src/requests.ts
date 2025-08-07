@@ -16,7 +16,7 @@ type TokenSearchResponse = z.infer<
  * @returns A promise that resolves to the token search response.
  * @throws Will throw an error if the request validation fails, or if `isStrict` is true and the response is invalid.
  */
-export async function getTokenSearch(
+export async function getTokensSearch(
     request: TokenSearchRequest,
     config?: {
         isStrict?: boolean

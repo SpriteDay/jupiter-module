@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest"
-import { getTokenSearch } from "../src/requests"
+import { getTokensSearch } from "../src/requests"
 import { JupiterRateLimiter } from "../src/rate-limiter"
 
 // Increase the timeout for these tests as they involve real network requests
@@ -15,13 +15,13 @@ const limiter = new JupiterRateLimiter({
 describe(
     "API integration tests",
     () => {
-        describe("getTokenSearch", () => {
+        describe("getTokensSearch", () => {
             it(
                 "should fetch real token data for 'USDC'",
                 async () => {
                     const request = { query: "USDC" }
                     const result = await limiter.request(() =>
-                        getTokenSearch(request, {
+                        getTokensSearch(request, {
                             isStrict: true,
                         }),
                     )

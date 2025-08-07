@@ -1,6 +1,6 @@
 {
   "name": "@spriteday/jupiter-module",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "A module to interact with the Jupiter API on Solana.",
   "private": false,
   "type": "module",

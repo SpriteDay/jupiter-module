@@ -1,12 +1,12 @@
 # Jupiter API Module
 
-A lightweight TypeScript module that provides a flexible rate limiter and a `getTokenSearch` utility for the Jupiter API on Solana.
+A lightweight TypeScript module that provides a flexible rate limiter and a `getTokensSearch` utility for the Jupiter API on Solana.
 
-This module provides a `JupiterRateLimiter` to manage your API request rate when using the `@jup-ag/api`, and it also includes the `getTokenSearch` function, which is not available in the official SDK at the moment. It's designed to be unopinionated, giving you the flexibility to integrate it into your projects as you see fit.
+This module provides a `JupiterRateLimiter` to manage your API request rate when using the `@jup-ag/api`, and it also includes the `getTokensSearch` function, which is not available in the official SDK at the moment. It's designed to be unopinionated, giving you the flexibility to integrate it into your projects as you see fit.
 
 ## Features
 
--   **Token Search**: Find tokens available on Jupiter using the `getTokenSearch` function.
+-   **Token Search**: Find tokens available on Jupiter using the `getTokensSearch` function.
 -   **Rate Limiting**: Includes a flexible `JupiterRateLimiter` to manage your API request rate.
 -   **Type-Safe**: Written in TypeScript and uses Zod for robust schema validation.
 -   **ESM and CJS support**: The package is published with both EcmaScript and CommonJS modules.
@@ -40,7 +40,7 @@ Here's a quick example of how to search for a token and get a swap quote with ra
 ```typescript
 import {
     JupiterRateLimiter,
-    getTokenSearch,
+    getTokensSearch,
 } from "@spriteday/jupiter-module"
 import { createJupiterApiClient } from "@jup-ag/api"
 
@@ -56,7 +56,7 @@ const jupiterApi = createJupiterApiClient()
 async function main() {
     try {
         const tokens = await limiter.request(() =>
-            getTokenSearch({ query: "USDC" }),
+            getTokensSearch({ query: "USDC" }),
         )
         console.log("Found tokens:", tokens)
 
@@ -78,7 +78,7 @@ main()
 
 ## API
 
-### `getTokenSearch(request, config)`
+### `getTokensSearch(request, config)`
 
 Searches for Jupiter tokens based on a query string.
 

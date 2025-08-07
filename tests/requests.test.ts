@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from "vitest"
 import axios from "axios"
-import { getTokenSearch } from "../src/requests"
+import { getTokensSearch } from "../src/requests"
 import { JupiterApi } from "../src/schemas"
 import { logZodErrors } from "../src/logger"
 
@@ -25,7 +25,7 @@ describe("API requests", () => {
         vi.resetAllMocks()
     })
 
-    describe("getTokenSearch", () => {
+    describe("getTokensSearch", () => {
         it("should return token search results on successful request", async () => {
             const mockRequest = { query: "SOL" }
             const mockResponse = [
@@ -38,7 +38,7 @@ describe("API requests", () => {
 
             mockedAxios.get.mockResolvedValue({ data: mockResponse })
 
-            const result = await getTokenSearch(mockRequest)
+            const result = await getTokensSearch(mockRequest)
 
             expect(mockedAxios.get).toHaveBeenCalledWith(
                 JupiterApi.TokensSearch.ROUTE,
@@ -54,7 +54,7 @@ describe("API requests", () => {
 
             mockedAxios.get.mockResolvedValue(invalidResponse)
 
-            const result = await getTokenSearch(mockRequest)
+            const result = await getTokensSearch(mockRequest)
 
             expect(result).toEqual(invalidResponse.data)
             expect(mockedLogZodErrors).toHaveBeenCalled()
@@ -67,7 +67,7 @@ describe("API requests", () => {
             mockedAxios.get.mockResolvedValue(invalidResponse)
 
             await expect(
-                getTokenSearch(mockRequest, { isStrict: true }),
+                getTokensSearch(mockRequest, { isStrict: true }),
             ).rejects.toThrow("Invalid response from Jupiter API")
             expect(mockedLogZodErrors).toHaveBeenCalled()
         })
