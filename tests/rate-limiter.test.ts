@@ -24,7 +24,7 @@ describe("JupiterRateLimiter", () => {
         })
         const requestFn = vi.fn().mockResolvedValue("test")
 
-        const result = await limiter.rateLimitedRequest(requestFn)
+        const result = await limiter.request(requestFn)
 
         expect(requestFn).toHaveBeenCalledOnce()
         expect(result).toBe("test")
@@ -39,13 +39,13 @@ describe("JupiterRateLimiter", () => {
         const requestFn2 = vi.fn().mockResolvedValue("second")
 
         // First request should execute immediately
-        const promise1 = limiter.rateLimitedRequest(requestFn1)
+        const promise1 = limiter.request(requestFn1)
         await vi.advanceTimersByTimeAsync(0)
         expect(await promise1).toBe("first")
         expect(requestFn1).toHaveBeenCalledOnce()
 
         // Second request should wait
-        const promise2 = limiter.rateLimitedRequest(requestFn2)
+        const promise2 = limiter.request(requestFn2)
 
         // Wait for a short time to ensure the promise is pending
         await vi.advanceTimersByTimeAsync(500)
@@ -68,20 +68,20 @@ describe("JupiterRateLimiter", () => {
         const requestFn = vi.fn().mockResolvedValue("ok")
 
         const promises = [
-            limiter.rateLimitedRequest(requestFn),
-            limiter.rateLimitedRequest(requestFn),
-            limiter.rateLimitedRequest(requestFn),
+            limiter.request(requestFn),
+            limiter.request(requestFn),
+            limiter.request(requestFn),
         ]
 
         // Let the first two requests resolve
         await vi.advanceTimersByTimeAsync(0)
 
-        // The third request should be pending
-        await vi.advanceTimersByTimeAsync(500)
+        // The third request should be pending, advance just under the required time
+        await vi.advanceTimersByTimeAsync(499)
         expect(requestFn).toHaveBeenCalledTimes(2)
 
-        // Let the third request resolve
-        await vi.advanceTimersByTimeAsync(500)
+        // Let the third request resolve by advancing the final millisecond
+        await vi.advanceTimersByTimeAsync(1)
 
         await Promise.all(promises)
         expect(requestFn).toHaveBeenCalledTimes(3)
