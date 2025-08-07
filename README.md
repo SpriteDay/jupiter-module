@@ -1,46 +1,42 @@
-# Jupiter API Module
+# Jupiter API Rate Limiter
 
-A lightweight TypeScript module for interacting with the Jupiter API on Solana.
+A lightweight TypeScript module that provides a flexible rate limiter for the official Jupiter SDK on Solana.
 
-This module provides simple, direct access to Jupiter's core functionalities: searching for tokens, getting swap quotes, and executing swaps. It's designed to be unopinionated, giving you the flexibility to integrate it into your projects as you see fit.
+This module provides a simple `JupiterRateLimiter` to manage your API request rate when using the `@jup-ag/api`. It's designed to be unopinionated, giving you the flexibility to integrate it into your projects as you see fit.
 
 ## Features
 
--   **Token Search**: Find tokens available on Jupiter.
--   **Swap Quotes**: Get real-time swap quotes.
--   **Execute Swaps**: Generate swap transactions.
 -   **Rate Limiting**: Includes a flexible `JupiterRateLimiter` to manage your API request rate.
--   **Type-Safe**: Uses Zod for robust schema validation and provides strong type safety with TypeScript.
+-   **Type-Safe**: Written in TypeScript to provide strong type safety.
 -   **ESM and CJS support**: The package is published with both EcmaScript and CommonJS modules.
 
 ## Installation
 
-This module lists `axios` and `zod` as `peerDependencies`. You will need to install them in your project if you haven't already.
-
-You can install the module and its peer dependencies using your package manager:
+You can install the module using your package manager:
 
 ```bash
-pnpm add @spriteday/jupiter-module axios zod
+pnpm add @spriteday/jupiter-module
 ```
 
 ```bash
-npm install @spriteday/jupiter-module axios zod
+npm install @spriteday/jupiter-module
 ```
 
 ```bash
-yarn add @spriteday/jupiter-module axios zod
+yarn add @spriteday/jupiter-module
 ```
 
 ```bash
-bun add @spriteday/jupiter-module axios zod
+bun add @spriteday/jupiter-module
 ```
 
 ## Quick Start
 
-Here's a quick example of how to get a swap quote.
+Here's a quick example of how to get a swap quote with rate limiting.
 
 ```typescript
-import { getQuote, JupiterRateLimiter } from "@spriteday/jupiter-module";
+import { JupiterRateLimiter } from "@spriteday/jupiter-module";
+import { createJupiterApiClient } from "@jup-ag/api";
 
 // Jupiter's API has rate limits. It's recommended to use the built-in rate limiter.
 // This example creates a limiter that allows 100 requests per minute.
@@ -49,17 +45,16 @@ const limiter = new JupiterRateLimiter({
   periodInSeconds: 60,
 });
 
+const jupiterApi = createJupiterApiClient();
+
 async function fetchQuote() {
   try {
-    const quote = await getQuote(
-      {
+    const quote = await limiter.rateLimitedRequest(() =>
+      jupiterApi.quoteGet({
         inputMint: "So11111111111111111111111111111111111111112", // SOL
         outputMint: "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v", // USDC
         amount: "100000000", // 1 SOL
-      },
-      {
-        limiter, // Pass the limiter to the request
-      }
+      })
     );
     console.log("Received quote:", quote);
   } catch (error) {
@@ -71,30 +66,6 @@ fetchQuote();
 ```
 
 ## API
-
-### `getTokenSearch(request, config)`
-
-Searches for Jupiter tokens based on a query string.
-
--   `request`: `z.infer<typeof JupiterApi.TokenSearch.REQUEST_SCHEMA>`
--   `config.isStrict` (optional): `boolean` - If `true`, throws an error for invalid API responses.
--   `config.limiter` (optional): `JupiterRateLimiter` - A rate limiter instance.
-
-### `getQuote(request, config)`
-
-Gets a quote for a token swap from the Jupiter API.
-
--   `request`: `z.infer<typeof JupiterApi.Quote.REQUEST_SCHEMA>`
--   `config.isStrict` (optional): `boolean`
--   `config.limiter` (optional): `JupiterRateLimiter`
-
-### `postSwap(request, config)`
-
-Performs a token swap using the Jupiter API.
-
--   `request`: `z.infer<typeof JupiterApi.Swap.REQUEST_SCHEMA>`
--   `config.isStrict` (optional): `boolean`
--   `config.limiter` (optional): `JupiterRateLimiter`
 
 ### `JupiterRateLimiter`
 
@@ -109,7 +80,7 @@ A token bucket rate limiter to manage API request rates.
 
 **Methods:**
 
--   `acquire()`: Acquires a token from the bucket, waiting if necessary. This method will block until a token is available.
+-   `rateLimitedRequest<T>(requestFn: () => Promise<T>): Promise<T>`: Executes a request after acquiring a token from the rate limiter.
 
 ## Contributing
 

@@ -3,7 +3,7 @@ import { logger } from "./logger"
 /**
  * Configuration for creating a JupiterRateLimiter.
  */
-type JupiterRateLimiterConfig = {
+export type JupiterRateLimiterConfig = {
     /**
      * The total number of requests allocated for each period.
      */
@@ -111,5 +111,15 @@ export class JupiterRateLimiter {
             const timeToWait = (1 - this.tokens) / this.tokensPerMillisecond
             await this.wait(timeToWait)
         }
+    }
+
+    /**
+     * Executes a request after acquiring a token from the rate limiter.
+     * @param requestFn The function to execute, which should return a promise.
+     * @returns A promise that resolves with the result of the request function.
+     */
+    async request<T>(requestFn: () => Promise<T>): Promise<T> {
+        await this.acquire()
+        return requestFn()
     }
 }
